@@ -1,0 +1,123 @@
+.test{
+    margin-top: 2em;
+    font-size: 4em;
+    color: gainsboro;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+} 
+
+.row{
+    align-content: center;
+    justify-content: center;
+    /* text-align: center; */
+    display:flex;
+}
+.field{
+    margin-top: 3em;
+}
+.word{
+    font-size: 3em;
+    color:gainsboro;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 10px;
+    margin-right: 10px;   
+}
+.next-word{
+    transition-duration: 0.2s;
+    font-size: 2em;
+}
+.deep-word{
+    transition-duration: 0.3s;
+    font-size: 1.3em;
+    margin-top: +0.4em;
+}
+.current-word{
+    transition-duration: 0.2s;
+    font-size: 3em;
+    margin-top: -0.3em;
+    color: gray;
+}
+.input-field{
+    margin-top: 1em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 0px;
+    font-size: 2em;
+    width: 6em;
+    text-align:center;
+    color: gray;
+    border-bottom: 1px solid gainsboro;
+    outline: none;
+}
+.timer-size{
+    transition: 1s;
+    font-size: 3em;
+    margin-bottom: -0.3em;
+}
+.anim-show{
+    opacity: 0;
+    transition: 1s; /*Скорость перехода состояния элемента*/
+    animation: show 1s 1; /* Указываем название анимации, её время и количество повторов*/
+    animation-fill-mode: forwards; /* Чтобы элемент оставался в конечном состоянии анимации */
+    animation-delay: 0.5s; /* Задержка перед началом */
+}
+@keyframes show{
+    0%{
+    opacity:0;
+    }
+    100% {
+    opacity:1;
+    }
+}
+.hide{
+    display: none;
+}
+.shake{
+    animation: shake 0.5s both;
+    transform: translate3d(0, 0, 0);
+}
+@keyframes shake {
+    10%, 90% {
+      transform: translate3d(-5px, -5px, 0px);
+
+    }
+    
+    20%, 80% { 
+      transform: translate3d(5px, 5px, 0);
+
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-7px, -5px, 0);
+
+    }
+  
+    40%, 60% {
+      transform: translate3d(7px, 5px, 0);
+
+    }
+  }
+  .big-letters{
+    font-size: 6em;
+    margin-top: 2em;
+  }
+  .start-button-hover{
+      margin-top: 1em;
+  }
+  .start-button-hover:hover{
+    color: grey;
+    cursor: pointer;
+  }
+.sandwich{
+    text-align:center;
+    display: initial;
+}
+.scoreboard{
+    margin-top: 1em;
+    white-space: pre;
+}
+.big-scoreboard{
+    margin-top: 0.2em;
+    
+}
+.small-fix{
+    margin-top: -0.1em;
+}
