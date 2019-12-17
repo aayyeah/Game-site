@@ -223,7 +223,7 @@ function endgame(){
             score_board_show.classList = startbutton.classList;
             score_board_show.classList.remove("hide");
             score_board_show.classList.remove("start-button-hover");
-            score_board_show.classList.add("scoreboard");
+            score_board_show.classList.add("scoreboard","big-scoreboard");
             
             let k=0;
             while (k != ScoreBoard.length){
@@ -237,7 +237,7 @@ function endgame(){
             let name = "";
         
 
-        if (ScoreBoard.length < 10){
+        if (ScoreBoard.length < 6){
             let score_input = document.createElement("input");
             score_input.classList.add("input-field","small-fix" ,"anim-show");
             score_input.type = "text";
@@ -260,7 +260,7 @@ function endgame(){
                     name = score_input.value;
                     console.log(name);
                     if (name != ""){
-                        check_scoreboard(name,score);
+                        put_to_scoreboard(name,score);
                     }
                     
                     while (insert_zone.childElementCount != 0){
@@ -272,33 +272,33 @@ function endgame(){
                     //score_board_div.classList.remove("hide");
                     startbutton.classList.remove("hide");
                     head.classList.remove("hide");
-                    
                 }
         }else{
-            if (ScoreBoard[ScoreBoard.length].score > score){
-                let score_input = document.createElement("input");
-                score_input.classList.add("input-field","small-fix" ,"anim-show");
-                score_input.type = "text";
+            if (parseFloat(ScoreBoard[ScoreBoard.length-1].score) > parseFloat(score)){
+            let score_input = document.createElement("input");
+            score_input.classList.add("input-field","small-fix" ,"anim-show");
+            score_input.type = "text";
             
-                let score_text = document.createElement("div");
-                score_text.classList = score_board_show.classList;
-                score_text.textContent = "Type your name here";
+            let score_text = document.createElement("div");
+            score_text.classList = score_board_show.classList;
+            score_text.textContent = "Type your name here";
 
-                let random_div = document.createElement("div");
-                insert_zone.appendChild(score_text);
-                insert_zone.appendChild(random_div);
-                random_div.appendChild(score_input);
+            let random_div = document.createElement("div");
+            insert_zone.appendChild(score_text);
+            insert_zone.appendChild(random_div);
+            random_div.appendChild(score_input);
 
-                let exit_button = document.createElement("div");
-                exit_button.classList.add("word","start-button-hover","small-fix","anim-show");
+            let exit_button = document.createElement("div");
+                exit_button.classList.add("word","start-button-hover","anim-show", "small-fix");
                 exit_button.textContent = "Save name and exit";
                 insert_zone.appendChild(exit_button);
                 exit_button.onclick = function(){
-
+                    
                     name = score_input.value;
                     console.log(name);
                     if (name != ""){
-                        check_scoreboard(name,score);
+                        delete_last_in_scoreboard();
+                        put_to_scoreboard(name,score);
                     }
                     
                     while (insert_zone.childElementCount != 0){
@@ -337,43 +337,6 @@ function endgame(){
 
 }
 
-function check_scoreboard(name,score){
-    if (ScoreBoard.length < 10){
-        put_to_scoreboard(name,score);
-        if (ScoreBoard.length != 1)
-            sort_scoreboard(name,score)
-    }else{
-        if (ScoreBoard[ScoreBoard.length].score > score){
-            ScoreBoard[ScoreBoard.length].score = score;
-            ScoreBoard[ScoreBoard.length].name = name;
-            sort_scoreboard(name,score)
-        }
-    }
-}
-
-function sort_scoreboard(name,score){
-    let my = ScoreBoard.length-1;
-
-    for (let k = my-1; k >=0; k--){
-        if (ScoreBoard[k] > ScoreBoard[k+1]){
-            let d = ScoreBoard[k+1];
-            ScoreBoard[k+1] = ScoreBoard[k];
-            ScoreBoard[k] = d;
-        }
-        k--;
-        
-    }
-    
-    fetch("https://api.myjson.com/bins/rlmbs", {
-        method:"PUT", 
-        body: JSON.stringify(ScoreBoard),
-        headers:{
-            "Content-Type":"application/json; charset=utf-8",
-        },
-        })
-        .then(response=>console.log("Success sort")); 
-}
-
 function put_to_scoreboard(name,score){
     var myData = {
         name: name,
@@ -381,6 +344,9 @@ function put_to_scoreboard(name,score){
     }
 
     ScoreBoard.push(myData)
+    ScoreBoard.sort(function(a,b){
+        return parseFloat(a.score) > parseFloat(b.score);
+    })
 
     fetch("https://api.myjson.com/bins/rlmbs", {
         method:"PUT", 
@@ -390,7 +356,20 @@ function put_to_scoreboard(name,score){
         },
         })
         .then(response=>console.log("Success")); 
-        
+}
+
+function delete_last_in_scoreboard(){
+    
+    ScoreBoard.pop()
+
+    fetch("https://api.myjson.com/bins/rlmbs", {
+        method:"PUT", 
+        body: JSON.stringify(ScoreBoard),
+        headers:{
+            "Content-Type":"application/json; charset=utf-8",
+        },
+        })
+        .then(response=>console.log("Success")); 
 }
 
 function put_to_wordlist(word){
